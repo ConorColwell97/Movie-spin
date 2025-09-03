@@ -2,14 +2,18 @@ import './styles.css';
 import { useState } from 'react';
 import axios from 'axios';
 import { jwtDecode } from 'jwt-decode';
+import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
     const [home, setHome] = useState(true);
     const [login, setLogin] = useState(false);
     const [register, setRegister] = useState(false);
+    const [user, setUser] = useState(null);
 
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+
+    const navigate = useNavigate();
 
     const setToHome = () => {
         setHome(true);
@@ -35,9 +39,9 @@ const Home = () => {
             });
 
             localStorage.setItem('jwt', response.data);
-
             const decoded = jwtDecode(localStorage.getItem('jwt'));
-            console.log(`Your username is: ${decoded.sub}`);
+            setUser(decoded.sub);
+
         } catch (error) {
             console.log(error);
         }
@@ -56,7 +60,7 @@ const Home = () => {
             localStorage.setItem('jwt', response.data);
 
             const decoded = jwtDecode(localStorage.getItem('jwt'));
-            console.log(`Your username is: ${decoded.sub}`);
+            setUser(decoded.sub);
         } catch (error) {
             console.log(error);
         }
@@ -91,6 +95,10 @@ const Home = () => {
                     <button onClick={createUser}>Register</button>
                     <button onClick={setToHome}>Cancel</button>
                 </>
+            )}
+
+            {user && (
+                <button onClick={() => navigate("/find")}>Find movies</button>
             )}
 
         </div>

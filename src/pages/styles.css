@@ -7,3 +7,43 @@
     border-radius: 0.5em;
     padding: 5em;
 }
+
+.filters {
+    display: flex;
+    gap: 2em;
+    align-items: flex-start;
+    padding: 2em;
+}
+
+.dropdown {
+    display: flex;
+    flex-direction: column;
+}
+
+.list-visible {
+   background-color: #1a1a1a; 
+}
+
+.not-visible {
+    visibility: hidden;
+}
+
+.main {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 2em;
+}
+
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    border: 0.2em solid black;
+    border-radius: 2em;
+    min-width: 40%;
+    max-width: 40%;
+    padding: 1em;
+}
