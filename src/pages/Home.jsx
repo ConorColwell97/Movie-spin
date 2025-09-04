@@ -95,7 +95,7 @@ const Home = () => {
                     {home && (
                         <>
                             <button onClick={setToLogin}>Log in</button>
-                            <p>or</p>
+                            <p style={{ color: "white" }}>or</p>
                             <button onClick={setToRegister}>Register</button>
                         </>
                     )}

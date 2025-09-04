@@ -16,6 +16,7 @@ const Checkbox = ({visible, addGenreFilter, genre}) => {
             type="checkbox"
             checked={checked} 
             onChange={handleChange}
+            style={{accentColor: "#088F8F"}}
         />
     );
 }
