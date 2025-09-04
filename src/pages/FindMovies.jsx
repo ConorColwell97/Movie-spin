@@ -13,11 +13,18 @@ const FindMovies = () => {
     const [data, setData] = useState([]);
 
     const getGenres = async () => {
-        try {
-            const response = await axios.get(`http://localhost:8080/genres`);
-            setGenres(response.data);
-        } catch(error) {
-            console.log(error);
+        if (localStorage.getItem('genres') === null) {
+            try {
+                const response = await axios.get(`http://localhost:8080/genres`);
+                setGenres(response.data);
+                const data = JSON.stringify(response.data);
+                localStorage.setItem('genres', data);
+            } catch (error) {
+                console.log(error);
+            }
+        } else {
+            const data = JSON.parse(localStorage.getItem('genres'));
+            setGenres(data);
         }
     }
 
@@ -38,7 +45,7 @@ const FindMovies = () => {
 
         if (genreFilters.length > 0) {
             filters = "with_genres=" + genreFilters[0];
-            for(let i = 1; i < genreFilters.length; i++) {
+            for (let i = 1; i < genreFilters.length; i++) {
                 filters += ("," + genreFilters[i]);
             }
         }
