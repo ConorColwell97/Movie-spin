@@ -11,6 +11,7 @@ const Home = () => {
 
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const [error, setError] = useState(null);
 
     const navigate = useNavigate();
 
@@ -31,13 +32,14 @@ const Home = () => {
     }
 
     const createUser = async () => {
+        let response;
         try {
-            const response = await axios.post(`http://localhost:8080/register`, {
+            response = await axios.post(`http://localhost:8080/register`, {
                 username: username,
                 password: password
-            });
+            }, { withCredentials: true });
 
-            localStorage.setItem('jwt', response.data);
+            localStorage.setItem('user', username);
 
             if (login) {
                 setLogin(false);
@@ -46,8 +48,9 @@ const Home = () => {
                 setRegister(false);
             }
 
-        } catch (error) {
-            console.log(error);
+        } catch (err) {
+            setError(err.response);
+            console.log(err.message);
         }
 
         setUsername("");
@@ -55,13 +58,14 @@ const Home = () => {
     }
 
     const userLogin = async () => {
+        let response;
         try {
-            const response = await axios.post(`http://localhost:8080/userLogin`, {
+            response = await axios.post(`http://localhost:8080/userLogin`, {
                 username: username,
                 password: password
-            });
+            }, { withCredentials: true });
 
-            localStorage.setItem('jwt', response.data);
+            localStorage.setItem('user', username);
 
             if (login) {
                 setLogin(false);
@@ -69,8 +73,9 @@ const Home = () => {
             if (register) {
                 setRegister(false);
             }
-        } catch (error) {
-            console.log(error);
+        } catch (err) {
+            setError(err.response.data.message);
+            console.log(err);
         }
 
         setUsername("");
@@ -82,6 +87,7 @@ const Home = () => {
             {localStorage.getItem('jwt') !== null ? (
                 <>
                     <button onClick={() => navigate("/find")}>Find movies</button>
+                    <button onClick={() => navigate("/movies")}>Your movies</button>
                     <button onClick={() => {
                         alert(`Log out of account ${jwtDecode(localStorage.getItem('jwt')).sub}?`);
                         if(localStorage.getItem('jwt') !== null) {
@@ -107,6 +113,10 @@ const Home = () => {
                             <button onClick={userLogin}>Log in</button>
                             <button onClick={setToHome}>Cancel</button>
                         </>
+                    )}
+
+                    {error && (
+                        <p style={{color: "red"}}>{error}</p>
                     )}
 
                     {register && (
