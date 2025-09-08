@@ -69,7 +69,7 @@ const FindMovies = () => {
             setData("No filters applied");
         } else {
             try {
-                const response = await axios.get(`${VITE_URL}/${encodeURIComponent(filters)}`);
+                const response = await axios.get(`${VITE_URL}/mymovies/${encodeURIComponent(filters)}`);
                 setData(response.data);
             } catch (error) {
                 console.log(`error: ${error}`);
