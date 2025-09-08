@@ -86,7 +86,7 @@ const Home = () => {
 
     useEffect(() => {
         if(localStorage.getItem('user') !== null) {
-            setUser(localStorage.setItem('user'));
+            setUser(localStorage.getItem('user'));
         }
     },[]);
 
