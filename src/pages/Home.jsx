@@ -15,6 +15,8 @@ const Home = () => {
 
     const navigate = useNavigate();
 
+    const disabled = true;
+
     const setToHome = () => {
         setHome(true);
         setLogin(false);
@@ -38,6 +40,8 @@ const Home = () => {
                 username: username,
                 password: password
             }, { withCredentials: true });
+
+            disabled = false;
 
             console.log(response.data || "No data");
             localStorage.setItem('user', username);
@@ -96,9 +100,9 @@ const Home = () => {
         <>
             {user !== null ? (
                 <>
-                    <button onClick={() => navigate("/find")}>Find movies</button>
-                    <button onClick={() => navigate("/movies")}>Your movies</button>
-                    <button onClick={() => navigate("/profile")}>Profile</button>
+                    <button onClick={() => navigate("/find")} disabled={disabled}>Find movies</button>
+                    <button onClick={() => navigate("/movies")} disabled={disabled}>Your movies</button>
+                    <button onClick={() => navigate("/profile")} disabled={disabled}>Profile</button>
                     <button onClick={() => {
                         alert(`Log out of account ${user}?`);
                         if(user !== null) {
