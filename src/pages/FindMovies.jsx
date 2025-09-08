@@ -16,7 +16,7 @@ const FindMovies = () => {
     const getGenres = async () => {
         if (localStorage.getItem('genres') === null) {
             try {
-                const response = await axios.get(`${VITE_URL}/genres`);
+                const response = await axios.get(`${VITE_URL}/genres/${localStorage.getItem('user')}`);
                 setGenres(response.data);
                 const data = JSON.stringify(response.data);
                 localStorage.setItem('genres', data);
@@ -69,7 +69,7 @@ const FindMovies = () => {
             setData("No filters applied");
         } else {
             try {
-                const response = await axios.get(`${VITE_URL}/mymovies/${encodeURIComponent(filters)}`);
+                const response = await axios.get(`${VITE_URL}/mymovies/${localStorage.getItem('user')}/${encodeURIComponent(filters)}`);
                 setData(response.data);
             } catch (error) {
                 console.log(`error: ${error}`);
