@@ -92,14 +92,14 @@ const Home = () => {
 
     return (
         <>
-            {data !== null ? (
+            {user !== null ? (
                 <>
                     <button onClick={() => navigate("/find")}>Find movies</button>
                     <button onClick={() => navigate("/movies")}>Your movies</button>
                     <button onClick={() => navigate("/profile")}>Profile</button>
                     <button onClick={() => {
                         alert(`Log out of account ${user}?`);
-                        if(data !== null) {
+                        if(user !== null) {
                             localStorage.clear();
                             setUser(null);
                             setHome(true);
