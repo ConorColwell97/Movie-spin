@@ -10,7 +10,7 @@ const Movies = () => {
         let response;
 
         try {
-            response = await axios.get(`${VITE_URL}/${encodeURIComponent(localStorage.getItem('user'))
+            response = await axios.get(`${VITE_URL}/getmovies/${encodeURIComponent(localStorage.getItem('user'))
             }`,{ withCredentials: true });
 
             console.log(response.data);
