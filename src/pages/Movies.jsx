@@ -9,6 +9,7 @@ const Movies = () => {
         let response;
 
         try {
+            console.log(`Movies: ${document.cookie}`);
             response = await axios.get(`http://localhost:8080/getmovies/${encodeURIComponent(localStorage.getItem('user'))
             }`,{ withCredentials: true });
 
