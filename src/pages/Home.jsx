@@ -90,11 +90,24 @@ const Home = () => {
         }
     }
 
+    const logOut = async () => {
+        let response;
+        try {
+            response = await axios.delete(`${VITE_URL}/userLogout`);
+        } catch (error) {
+            console.log(error);
+        }
+
+        localStorage.clear();
+        setUser(null);
+        setHome(true);
+    }
+
     useEffect(() => {
-        if(localStorage.getItem('user') !== null) {
+        if (localStorage.getItem('user') !== null) {
             setUser(localStorage.getItem('user'));
         }
-    },[]);
+    }, []);
 
     return (
         <>
@@ -105,10 +118,8 @@ const Home = () => {
                     <button onClick={() => navigate("/profile")} disabled={disabled}>Profile</button>
                     <button onClick={() => {
                         alert(`Log out of account ${user}?`);
-                        if(user !== null) {
-                            localStorage.clear();
-                            setUser(null);
-                            setHome(true);
+                        if (user !== null) {
+                            logOut();
                         }
                     }}>Log out</button>
                 </>
@@ -132,7 +143,7 @@ const Home = () => {
                     )}
 
                     {error && (
-                        <p style={{color: "red"}}>An error occurred</p>
+                        <p style={{ color: "red" }}>An error occurred</p>
                     )}
 
                     {register && (
