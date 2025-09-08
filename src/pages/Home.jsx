@@ -65,7 +65,7 @@ const Home = () => {
             response = await axios.post(`http://localhost:8080/userLogin`, {
                 username: username,
                 password: password
-            });
+            }, { withCredentials: true });
 
             console.log(response.data || "No data");
 
