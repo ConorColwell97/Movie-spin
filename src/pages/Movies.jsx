@@ -4,12 +4,13 @@ import './styles.css';
 
 const Movies = () => {
     const [data, setData] = useState(null);
+    const VITE_URL = import.meta.env.VITE_API_URL;
 
     const getMovies = async () => {
         let response;
 
         try {
-            response = await axios.get(`http://localhost:8080/getmovies/${encodeURIComponent(localStorage.getItem('user'))
+            response = await axios.get(`${VITE_URL}/${encodeURIComponent(localStorage.getItem('user'))
             }`,{ withCredentials: true });
 
             console.log(response.data);

@@ -11,11 +11,12 @@ const FindMovies = () => {
     const [dateBeforeFilter, setDateBeforeFilter] = useState("");
     const [visible, setVisible] = useState(false);
     const [data, setData] = useState([]);
+    const VITE_URL = import.meta.env.VITE_API_URL;
 
     const getGenres = async () => {
         if (localStorage.getItem('genres') === null) {
             try {
-                const response = await axios.get(`http://localhost:8080/genres`);
+                const response = await axios.get(`${VITE_URL}/genres`);
                 setGenres(response.data);
                 const data = JSON.stringify(response.data);
                 localStorage.setItem('genres', data);
@@ -68,7 +69,7 @@ const FindMovies = () => {
             setData("No filters applied");
         } else {
             try {
-                const response = await axios.get(`http://localhost:8080/mymovies/${encodeURIComponent(filters)}`);
+                const response = await axios.get(`${VITE_URL}/${encodeURIComponent(filters)}`);
                 setData(response.data);
             } catch (error) {
                 console.log(`error: ${error}`);

@@ -12,6 +12,7 @@ const Home = () => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState(null);
+    const VITE_URL = import.meta.env.VITE_API_URL;
 
     const navigate = useNavigate();
 
@@ -36,7 +37,7 @@ const Home = () => {
     const createUser = async () => {
         let response;
         try {
-            response = await axios.post(`http://localhost:8080/register`, {
+            response = await axios.post(`${VITE_URL}/register`, {
                 username: username,
                 password: password
             }, { withCredentials: true });
@@ -64,7 +65,7 @@ const Home = () => {
     const userLogin = async () => {
         let response;
         try {
-            response = await axios.post(`http://localhost:8080/userLogin`, {
+            response = await axios.post(`${VITE_URL}/userLogin`, {
                 username: username,
                 password: password
             }, { withCredentials: true });
