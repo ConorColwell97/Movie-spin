@@ -41,6 +41,7 @@ const Home = () => {
 
             console.log(response.data || "No data");
             localStorage.setItem('user', username);
+            setUser(username);
 
             if (login) {
                 setLogin(false);
@@ -69,6 +70,7 @@ const Home = () => {
             console.log(response.data || "No data");
 
             localStorage.setItem('user', username);
+            setUser(username);
 
             if (login) {
                 setLogin(false);
