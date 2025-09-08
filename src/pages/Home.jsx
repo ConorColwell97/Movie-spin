@@ -15,7 +15,7 @@ const Home = () => {
 
     const navigate = useNavigate();
 
-    const disabled = true;
+    const disabled = user === null;
 
     const setToHome = () => {
         setHome(true);
@@ -40,8 +40,6 @@ const Home = () => {
                 username: username,
                 password: password
             }, { withCredentials: true });
-
-            disabled = false;
 
             console.log(response.data || "No data");
             localStorage.setItem('user', username);
