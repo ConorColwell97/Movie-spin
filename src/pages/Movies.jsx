@@ -1,5 +1,4 @@
 import axios from "axios";
-import { jwtDecode } from 'jwt-decode';
 import { useEffect, useState } from "react";
 import './styles.css';
 
@@ -10,7 +9,9 @@ const Movies = () => {
         let response;
 
         try {
-            response = await axios.get(`http://localhost:8080/getmovies/${encodeURIComponent(localStorage.getItem('user'))}`);
+            response = await axios.get(`http://localhost:8080/getmovies/${encodeURIComponent(localStorage.getItem('user'))
+            }`,{ withCredentials: true });
+
             console.log(response.data);
             setData(response.data);
         } catch (err) {
