@@ -7,6 +7,7 @@ const Home = () => {
     const [home, setHome] = useState(true);
     const [login, setLogin] = useState(false);
     const [register, setRegister] = useState(false);
+    const [user, setUser] = useState(null);
 
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
@@ -38,6 +39,7 @@ const Home = () => {
                 password: password
             }, { withCredentials: true });
 
+            console.log(response.data || "No data");
             localStorage.setItem('user', username);
 
             if (login) {
@@ -64,6 +66,8 @@ const Home = () => {
                 password: password
             });
 
+            console.log(response.data || "No data");
+
             localStorage.setItem('user', username);
 
             if (login) {
@@ -80,16 +84,24 @@ const Home = () => {
         }
     }
 
+    useEffect(() => {
+        if(localStorage.getItem('user') !== null) {
+            setUser(localStorage.setItem('user'));
+        }
+    },[]);
+
     return (
         <>
-            {localStorage.getItem('user') !== null ? (
+            {data !== null ? (
                 <>
                     <button onClick={() => navigate("/find")}>Find movies</button>
                     <button onClick={() => navigate("/movies")}>Your movies</button>
+                    <button onClick={() => navigate("/profile")}>Profile</button>
                     <button onClick={() => {
-                        alert(`Log out of account ${localStorage.getItem('user')}?`);
-                        if(localStorage.getItem('user') !== null) {
+                        alert(`Log out of account ${data}?`);
+                        if(data !== null) {
                             localStorage.clear();
+                            setUser(null);
                             setHome(true);
                         }
                     }}>Log out</button>
