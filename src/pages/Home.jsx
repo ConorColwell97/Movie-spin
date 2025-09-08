@@ -80,7 +80,7 @@ const Home = () => {
             if (register) {
                 setRegister(false);
             }
-            console.log(`Movies: ${document.cookie}`);
+
 
             setUsername("");
             setPassword("");
