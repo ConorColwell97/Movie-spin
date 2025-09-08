@@ -10,7 +10,7 @@ const Movies = () => {
         let response;
 
         try {
-            response = await axios.get(`http://localhost:8080/getmovies/${encodeURIComponent(jwtDecode(localStorage.getItem('jwt')).sub)}`);
+            response = await axios.get(`http://localhost:8080/getmovies/${encodeURIComponent(localStorage.getItem('user'))}`);
             console.log(response.data);
             setData(response.data);
         } catch (err) {

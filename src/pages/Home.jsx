@@ -1,7 +1,6 @@
 import './styles.css';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { jwtDecode } from 'jwt-decode';
 import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
@@ -48,13 +47,13 @@ const Home = () => {
                 setRegister(false);
             }
 
+            setUsername("");
+            setPassword("");
+
         } catch (err) {
             setError(err.response);
             console.log(err.message);
         }
-
-        setUsername("");
-        setPassword("");
     }
 
     const userLogin = async () => {
@@ -63,7 +62,7 @@ const Home = () => {
             response = await axios.post(`http://localhost:8080/userLogin`, {
                 username: username,
                 password: password
-            }, { withCredentials: true });
+            });
 
             localStorage.setItem('user', username);
 
@@ -73,24 +72,23 @@ const Home = () => {
             if (register) {
                 setRegister(false);
             }
+
+            setUsername("");
+            setPassword("");
         } catch (err) {
-            setError(err.response.data.message);
             console.log(err);
         }
-
-        setUsername("");
-        setPassword("");
     }
 
     return (
         <>
-            {localStorage.getItem('jwt') !== null ? (
+            {localStorage.getItem('user') !== null ? (
                 <>
                     <button onClick={() => navigate("/find")}>Find movies</button>
                     <button onClick={() => navigate("/movies")}>Your movies</button>
                     <button onClick={() => {
-                        alert(`Log out of account ${jwtDecode(localStorage.getItem('jwt')).sub}?`);
-                        if(localStorage.getItem('jwt') !== null) {
+                        alert(`Log out of account ${localStorage.getItem('user')}?`);
+                        if(localStorage.getItem('user') !== null) {
                             localStorage.clear();
                             setHome(true);
                         }
@@ -116,7 +114,7 @@ const Home = () => {
                     )}
 
                     {error && (
-                        <p style={{color: "red"}}>{error}</p>
+                        <p style={{color: "red"}}>An error occurred</p>
                     )}
 
                     {register && (
