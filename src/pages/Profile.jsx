@@ -12,11 +12,8 @@ const Profile = () => {
         let response;
 
         try {
-            response = await axios.patch(`${VITE_URL}/updatename/${encodeURIComponent(localStorage.getItem('user'))}`,
-                { newName }, {
-                headers: {
-                    "Content-Type": "application/json"
-                }, withCredentials: true
+            response = await axios.patch(`${VITE_URL}/updatename/${encodeURIComponent(localStorage.getItem('user'))}/${encodeURIComponent(newName)}`,{ 
+                withCredentials: true
             });
 
             localStorage.setItem('user', newName);
@@ -31,11 +28,8 @@ const Profile = () => {
         let response;
 
         try {
-            response = await axios.patch(`${VITE_URL}/updatepw/${encodeURIComponent(localStorage.getItem('user'))}`,
-                { newPW }, {
-                    headers: {
-                        "Content-Type": "application/json"
-                    }, withCredentials: true
+            response = await axios.patch(`${VITE_URL}/updatepw/${encodeURIComponent(localStorage.getItem('user'))}/${encodeURIComponent(newPW)}`, {
+                withCredentials: true
             });
 
             setNewPW("");
