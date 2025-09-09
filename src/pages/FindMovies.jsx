@@ -2,6 +2,7 @@ import './styles.css';
 import Checkbox from '../components/Checkbox';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const FindMovies = () => {
 
@@ -13,9 +14,10 @@ const FindMovies = () => {
 
     const [data, setData] = useState([]);
     const [movies, setMovies] = useState([]);
+    const [success, setSuccess] = useState(false);
     const disabled = (movies.length === 0);
 
-
+    const navigate = useNavigate();
     const VITE_URL = import.meta.env.VITE_API_URL;
 
     const getGenres = async () => {
@@ -90,9 +92,13 @@ const FindMovies = () => {
 
         try {
             response = await axios.put(`${VITE_URL}/addmovies/${localStorage.getItem('user')}`, movies,
-            { headers: {
-                "Content-Type": "application/json"
-            }, withCredentials: true });
+                {
+                    headers: {
+                        "Content-Type": "application/json"
+                    }, withCredentials: true
+                });
+
+            setSuccess(true);
         } catch (error) {
             console.log(error);
         }
@@ -112,7 +118,7 @@ const FindMovies = () => {
                             {genres.map((genre, index) => (
                                 <li key={index}>
                                     {genre.name}
-                                    <Checkbox visible={visible} action={addItem} item={genre.id} setArr={setGenreFilters}/>
+                                    <Checkbox visible={visible} action={addItem} item={genre.id} setArr={setGenreFilters} />
                                 </li>
                             ))}
                         </ul>
@@ -133,24 +139,33 @@ const FindMovies = () => {
                 </>
 
             ) : (
-                <>
-                    <div className='main'>
-                        {data.map((item, index) => (
-                            <div className='container' key={index}>
-                                <p>{item.title}</p>
-                                <p>{item.genres}</p>
-                                <p>{item.overview}</p>
-                                <p>{item.releaseDate}</p>
-                                <Checkbox visible={true} action={addItem} item={item} setArr={setMovies}/>
+                <div style={{ display: "flex", flexDirection: "column" }}>
+                    {success ? (
+                        <>
+                            <p>Movies successfully added!</p>
+                            <button onClick={() => navigate("/")}>Finish</button>
+                        </>
+                    ) : (
+                        <>
+                            <div className='main'>
+                                {data.map((item, index) => (
+                                    <div className='container' key={index}>
+                                        <p>{item.title}</p>
+                                        <p>{item.genres}</p>
+                                        <p>{item.overview}</p>
+                                        <p>{item.releaseDate}</p>
+                                        <Checkbox visible={true} action={addItem} item={item} setArr={setMovies} />
+                                    </div>
+                                ))}
                             </div>
-                        ))}
-                    </div>
 
-                    {movies.length === 0 && (
-                        <p>No movies selected</p>
+                            {movies.length === 0 && (
+                                <p>No movies selected</p>
+                            )}
+                            <button onClick={addMovies} disabled={disabled}>Add selected movies?</button>
+                        </>
                     )}
-                    <button onClick={addMovies} disabled={disabled}>Add selected movies?</button>
-                </>
+                </div>
             )}
 
         </div>
