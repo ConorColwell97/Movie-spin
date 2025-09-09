@@ -37,6 +37,7 @@ const FindMovies = () => {
     }
 
     const addItem = (setArr, item, checked) => {
+        console.log(item);
         if (checked) {
             setArr(prev => {
                 return [...prev, item];
