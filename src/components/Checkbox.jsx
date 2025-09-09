@@ -7,7 +7,7 @@ const Checkbox = ({visible, action, item, setArr}) => {
     const handleChange = (e) => {
         const val = e.target.checked;
         setChecked(val);
-        addItem(setArr, item, val);
+        action(setArr, item, val);
     }
 
     return (
