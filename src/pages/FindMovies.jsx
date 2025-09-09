@@ -89,9 +89,10 @@ const FindMovies = () => {
         let response;
 
         try {
-            response = await axios.put(`${VITE_URL}/addmovies/${localStorage.getItem('user')}`, {
-                movies
-            }, { withCredentials: true });
+            response = await axios.put(`${VITE_URL}/addmovies/${localStorage.getItem('user')}`, movies,
+            { headers: {
+                "Content-Type": "application/json"
+            }, withCredentials: true });
         } catch (error) {
             console.log(error);
         }
