@@ -46,9 +46,9 @@ const Profile = () => {
     }
 
     return (
-        <div>
+        <div style={{ display: "flex", flexDirection: "column" }}>
             {openName ? (
-                <div style={{ display: "flex", flexDirection: "row" }}>
+                <div style={{ display: "flex" }}>
                     <input
                         type="text"
                         value={newName}
@@ -63,7 +63,7 @@ const Profile = () => {
             )}
 
             {openPW ? (
-                <div style={{ display: "flex", flexDirection: "row" }}>
+                <div style={{ display: "flex" }}>
                     <input
                         type="password"
                         value={newPW}
