@@ -29,6 +29,7 @@ const Movies = () => {
             response = await axios.patch(`${VITE_URL}/deletemovies/${encodeURIComponent(localStorage.getItem('user'))}`,
             moviesToRemove, { withCredentials: true });
 
+            setMoviesToRemove([]);
             getMovies();
         } catch (error) {
             console.log(error);
