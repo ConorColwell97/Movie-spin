@@ -63,7 +63,7 @@ const Movies = () => {
                             <p>{movie.overview}</p>
                             <label>
                                 Mark as watched:
-                                <Checkbox visible={true} action={addItem} item={movie} setArr={setMoviesToRemove} />
+                                <Checkbox visible={true} action={addItem} item={movie.title} setArr={setMoviesToRemove} />
                             </label>
 
                         </div>
