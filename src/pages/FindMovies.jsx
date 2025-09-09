@@ -143,7 +143,7 @@ const FindMovies = () => {
                     {success ? (
                         <>
                             <p>Movies successfully added!</p>
-                            <button onClick={() => navigate("/")}>Finish</button>
+                            <button onClick={() => navigate("/home")}>Finish</button>
                         </>
                     ) : (
                         <>
