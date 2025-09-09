@@ -37,6 +37,9 @@ const Movies = () => {
                 setMoviesToRemove([]);
             })
             .then(() => {
+                setData(null);
+            })
+            .then(() => {
                 getMovies();
             })
             .catch(error => {
