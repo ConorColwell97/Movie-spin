@@ -90,7 +90,7 @@ const FindMovies = () => {
 
         try {
             response = await axios.put(`${VITE_URL}/addmovies/${localStorage.getItem('user')}`, {
-                movies: movies
+                movies
             }, { withCredentials: true });
         } catch (error) {
             console.log(error);
