@@ -69,14 +69,17 @@ const Movies = () => {
                                 <p>{movie.releaseDate}</p>
                                 <p>{movie.overview}</p>
                                 <label>
-                                    Mark as watched:
+                                    Mark as watched/No longer interested:
                                     <Checkbox visible={true} action={addItem} item={movie.title} setArr={setMoviesToRemove} />
                                 </label>
 
                             </div>
                         ))}
                     </div>
-                    <button disabled={disabled} onClick={deleteMovies}>Delete all marked as watched?</button>
+                    <button disabled={disabled} onClick={() => {
+                        prompt("Are you sure you want to delete all marked movies?");
+                        deleteMovies();
+                    }}>Delete all marked movies</button>
                 </>
             ) : (
                 <p>You do not have any movies in your collection</p>

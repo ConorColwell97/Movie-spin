@@ -119,7 +119,7 @@ const Home = () => {
                     <button onClick={() => navigate("/movies")} disabled={disabled}>Your movies</button>
                     <button onClick={() => navigate("/profile")} disabled={disabled}>Profile</button>
                     <button onClick={() => {
-                        alert(`Log out of account ${user}?`);
+                        prompt(`Log out of account ${user}?`);
                         if (user !== null) {
                             logOut();
                         }
