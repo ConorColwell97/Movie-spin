@@ -4,7 +4,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 const UserAuth = () => {
-    const [login, setLogin] = useState(false);
+    const [login, setLogin] = useState(true);
     const [register, setRegister] = useState(false);
 
     const [username, setUsername] = useState("");
@@ -89,7 +89,7 @@ const UserAuth = () => {
             </div>
 
             <div className='about'>
-                <h1>Movie Spin</h1>
+                <h1 style={{ color: "white" }}>Movie Spin</h1>
                 <p>Welcome to movie spin! Apply filters such as genre, release date and then
                     spin the wheel to get a bunch of random movies that match your filters!
                     To get started, either create an account or log in if you are already
