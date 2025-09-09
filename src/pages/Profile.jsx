@@ -1,12 +1,16 @@
 import axios from "axios";
 import { useState } from "react";
+import { useNavigate } from 'react-router-dom';
 
 const Profile = () => {
+    const navigate = useNavigate();
     const VITE_URL = import.meta.env.VITE_API_URL;
     const [newName, setNewName] = useState("");
     const [newPW, setNewPW] = useState("");
     const [openName, setOpenName] = useState(false);
     const [openPW, setOpenPW] = useState(false);
+    const [openDel, setOpenDel] = useState(false);
+    const [password, setPassword] = useState("");
 
     const updateName = async () => {
         let response;
@@ -45,6 +49,18 @@ const Profile = () => {
         }
     }
 
+    const deleteAccount = async () => {
+        let response;
+
+        try {
+            response = await axios.delete(`${VITE_URL}/delete/${encodeURIComponent(localStorage.getItem('user'))}/${encodeURIComponent(password)}`)
+            localStorage.clear();
+            navigate("/");
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     return (
         <div style={{ display: "flex", flexDirection: "column" }}>
             {openName ? (
@@ -75,6 +91,26 @@ const Profile = () => {
 
             ) : (
                 <button onClick={() => setOpenPW(true)}>Change Password</button>
+            )}
+
+            {openDel ? (
+                <div style={{ display: "flex" }}>
+                    <input
+                        type="password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        placeholder="Enter password"
+                    />
+                    <button onClick={() => {
+                        const confirmed = window.confirm(`Delete account? This action cannot be undone. You will be returned
+                                                            to the log in page upon deletion of your account`);
+                        if (confirmed) {
+                            deleteAccount();
+                        }
+                    }} disabled={password.length < 8}>Delete</button>
+                </div>
+            ) : (
+                <button onClick={() => setOpenDel(true)}>Delete account</button>
             )}
         </div>
     );
