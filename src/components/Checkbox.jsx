@@ -1,7 +1,7 @@
 import { useState } from "react";
 import '../pages/styles.css';
 
-const Checkbox = ({visible, addItem, item, setArr}) => {
+const Checkbox = ({visible, action, item, setArr}) => {
     const [checked, setChecked] = useState(false);
 
     const handleChange = (e) => {

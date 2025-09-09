@@ -37,7 +37,6 @@ const FindMovies = () => {
     }
 
     const addItem = (setArr, item, checked) => {
-        console.log(item);
         if (checked) {
             setArr(prev => {
                 return [...prev, item];
@@ -112,7 +111,7 @@ const FindMovies = () => {
                             {genres.map((genre, index) => (
                                 <li key={index}>
                                     {genre.name}
-                                    <Checkbox visible={visible} addGenreFilter={addItem} item={genre.id} setArr={setGenreFilters}/>
+                                    <Checkbox visible={visible} action={addItem} item={genre.id} setArr={setGenreFilters}/>
                                 </li>
                             ))}
                         </ul>
@@ -141,7 +140,7 @@ const FindMovies = () => {
                                 <p>{item.genres}</p>
                                 <p>{item.overview}</p>
                                 <p>{item.releaseDate}</p>
-                                <Checkbox visible={true} addGenreFilter={addItem} item={item} setArr={setMovies}/>
+                                <Checkbox visible={true} action={addItem} item={item} setArr={setMovies}/>
                             </div>
                         ))}
                     </div>
