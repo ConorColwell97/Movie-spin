@@ -60,16 +60,19 @@ const UserAuth = () => {
     }
 
     return (
-        <div style={{ display: "flex" }}>
+        <div style={{ display: "flex", flex: 1 }}>
 
             <div className='login'>
+
+                <h1 style={{ color: "#470000" }}>Movie spin</h1>
+                <p style={{ color: "#470000" }}>Log in or create an account</p>
                 
                 {login && (
                     <>
                         <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} placeholder='Username' />
                         <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder='Password' />
                         <button onClick={userLogin}>Log in</button>
-                        <p style={{ color: "black" }}>or</p>
+                        <p style={{ color: "#470000" }}>or</p>
                         <button onClick={setToRegister}>Register</button>
                     </>
                 )}
@@ -90,7 +93,7 @@ const UserAuth = () => {
 
             <div className='about'>
                 <h1 style={{ color: "white" }}>Movie Spin</h1>
-                <p>Welcome to movie spin! Apply filters such as genre, release date and then
+                <p style={{ fontSize: "xx-large"}}>Welcome to movie spin! Apply filters such as genre or release date and then
                     spin the wheel to get a bunch of random movies that match your filters!
                     To get started, either create an account or log in if you are already
                     a user 

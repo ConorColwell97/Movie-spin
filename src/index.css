@@ -59,7 +59,7 @@ button {
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: red;
+  background-color: #470000;
   cursor: pointer;
   transition: border-color 0.25s;
 }
@@ -77,7 +77,9 @@ button:active {
 
 input {
   border-radius: 8px;
-  border: 1px solid blue;
+  border: 1px solid #470000;
+  color: #213547;
+  background-color: white;
   padding: 0.6em 1.2em;
   font-size: 1em;
   font-weight: 500;
