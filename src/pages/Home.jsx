@@ -1,5 +1,4 @@
 import './styles.css';
-import { useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
@@ -21,24 +20,22 @@ const Home = () => {
         navigate("/");
     }
 
-    useEffect(() => {
-        if (localStorage.getItem('user') !== null) {
-            setUser(localStorage.getItem('user'));
-        }
-    }, []);
-
     return (
-        <div>
-            <button onClick={() => navigate("/find")}>Find movies</button>
-            <button onClick={() => navigate("/movies")}>Your movies</button>
-            <button onClick={() => navigate("/profile")}>Profile</button>
-            <button onClick={() => {
-                const confirmed = window.confirm(`Log out of account ${localStorage.getItem('user')}?`);
-                if (confirmed) {
-                    logOut();
-                }
-            }}>Log out</button>
-        </div>
+        <>
+            <h1>Welcome {localStorage.getItem('user')}!</h1>
+            <div>
+                <button onClick={() => navigate("/find")}>Find movies</button>
+                <button onClick={() => navigate("/movies")}>Your movies</button>
+                <button onClick={() => navigate("/profile")}>Profile</button>
+                <button onClick={() => {
+                    const confirmed = window.confirm(`Log out of account ${localStorage.getItem('user')}?`);
+                    if (confirmed) {
+                        logOut();
+                    }
+                }}>Log out</button>
+            </div>
+        </>
+
     );
 }
 
