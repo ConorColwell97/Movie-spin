@@ -119,8 +119,8 @@ const Home = () => {
                     <button onClick={() => navigate("/movies")} disabled={disabled}>Your movies</button>
                     <button onClick={() => navigate("/profile")} disabled={disabled}>Profile</button>
                     <button onClick={() => {
-                        prompt(`Log out of account ${user}?`);
-                        if (user !== null) {
+                        const confirmed =  window.confirm(`Log out of account ${user}?`);
+                        if (confirmed) {
                             logOut();
                         }
                     }}>Log out</button>

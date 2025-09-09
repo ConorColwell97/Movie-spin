@@ -77,8 +77,10 @@ const Movies = () => {
                         ))}
                     </div>
                     <button disabled={disabled} onClick={() => {
-                        prompt("Are you sure you want to delete all marked movies?");
-                        deleteMovies();
+                        const confirmed =  window.confirm(`Delete marked movies? This action cannot be undone`);
+                        if(confirmed) {
+                            deleteMovies();
+                        }
                     }}>Delete all marked movies</button>
                 </>
             ) : (
