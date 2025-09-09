@@ -16,6 +16,7 @@ const Movies = () => {
             response = await axios.get(`${VITE_URL}/getmovies/${encodeURIComponent(localStorage.getItem('user'))
                 }`, { withCredentials: true });
 
+            console.log(response.data);
             setData(response.data);
         } catch (err) {
             console.log(err);
