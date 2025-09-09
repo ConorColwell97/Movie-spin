@@ -71,7 +71,8 @@ const FindMovies = () => {
             setData("No filters applied");
         } else {
             try {
-                const response = await axios.get(`${VITE_URL}/mymovies/${localStorage.getItem('user')}/${encodeURIComponent(filters)}`);
+                const response = await axios.get(`${VITE_URL}/mymovies/${localStorage.getItem('user')}/${encodeURIComponent(filters)}`, 
+                    { withCredentials: true });
                 setData(response.data);
             } catch (error) {
                 console.log(`error: ${error}`);
