@@ -10,7 +10,12 @@ const FindMovies = () => {
     const [dateAfterFilter, setDateAfterFilter] = useState("");
     const [dateBeforeFilter, setDateBeforeFilter] = useState("");
     const [visible, setVisible] = useState(false);
+
     const [data, setData] = useState([]);
+    const [movies, setMovies] = useState([]);
+    const disabled = (movies.length === 0);
+
+
     const VITE_URL = import.meta.env.VITE_API_URL;
 
     const getGenres = async () => {
@@ -31,14 +36,14 @@ const FindMovies = () => {
         }
     }
 
-    const addGenreFilter = (id, checked) => {
+    const addItem = (setArr, item, checked) => {
         if (checked) {
-            setGenreFilters(prev => {
-                return [...prev, id];
+            setArr(prev => {
+                return [...prev, item];
             });
         } else {
-            setGenreFilters(prev => {
-                return prev.filter(item => item != id);
+            setArr(prev => {
+                return prev.filter(element => element != item);
             });
         }
     }
@@ -71,12 +76,24 @@ const FindMovies = () => {
             setData("No filters applied");
         } else {
             try {
-                const response = await axios.get(`${VITE_URL}/mymovies/${localStorage.getItem('user')}/${encodeURIComponent(filters)}`, 
+                const response = await axios.get(`${VITE_URL}/mymovies/${localStorage.getItem('user')}/${encodeURIComponent(filters)}`,
                     { withCredentials: true });
                 setData(response.data);
             } catch (error) {
                 console.log(`error: ${error}`);
             }
+        }
+    }
+
+    const addMovies = async () => {
+        let response;
+
+        try {
+            response = await axios.put(`${VITE_URL}/addmovies/${localStorage.getItem('user')}`, {
+                movies: movies
+            }, { withCredentials: true });
+        } catch (error) {
+            console.log(error);
         }
     }
 
@@ -94,7 +111,7 @@ const FindMovies = () => {
                             {genres.map((genre, index) => (
                                 <li key={index}>
                                     {genre.name}
-                                    <Checkbox visible={visible} addGenreFilter={addGenreFilter} genre={genre.id} />
+                                    <Checkbox visible={visible} addGenreFilter={addItem} item={genre.id} setArr={setGenreFilters}/>
                                 </li>
                             ))}
                         </ul>
@@ -115,16 +132,24 @@ const FindMovies = () => {
                 </>
 
             ) : (
-                <div className='main'>
-                    {data.map((item, index) => (
-                        <div className='container' key={index}>
-                            <p>{item.title}</p>
-                            <p>{item.genres}</p>
-                            <p>{item.overview}</p>
-                            <p>{item.releaseDate}</p>
-                        </div>
-                    ))}
-                </div>
+                <>
+                    <div className='main'>
+                        {data.map((item, index) => (
+                            <div className='container' key={index}>
+                                <p>{item.title}</p>
+                                <p>{item.genres}</p>
+                                <p>{item.overview}</p>
+                                <p>{item.releaseDate}</p>
+                                <Checkbox visible={true} addGenreFilter={addItem} item={item} setArr={setMovies}/>
+                            </div>
+                        ))}
+                    </div>
+
+                    {movies.length === 0 && (
+                        <p>No movies selected</p>
+                    )}
+                    <button onClick={addMovies} disabled={disabled}>Add selected movies?</button>
+                </>
             )}
 
         </div>

@@ -1,13 +1,13 @@
 import { useState } from "react";
 import '../pages/styles.css';
 
-const Checkbox = ({visible, addGenreFilter, genre}) => {
+const Checkbox = ({visible, addItems, item, setArr}) => {
     const [checked, setChecked] = useState(false);
 
     const handleChange = (e) => {
         const val = e.target.checked;
         setChecked(val);
-        addGenreFilter(genre, val);
+        addItems(setArr, item, val);
     }
 
     return (
