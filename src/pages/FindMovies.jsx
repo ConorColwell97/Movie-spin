@@ -16,7 +16,9 @@ const FindMovies = () => {
     const getGenres = async () => {
         if (localStorage.getItem('genres') === null) {
             try {
-                const response = await axios.get(`${VITE_URL}/genres/${localStorage.getItem('user')}`);
+                const response = await axios.get(`${VITE_URL}/genres/${localStorage.getItem('user')}`,
+                    { withCredentials: true }
+                );
                 setGenres(response.data);
                 const data = JSON.stringify(response.data);
                 localStorage.setItem('genres', data);
