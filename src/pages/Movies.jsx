@@ -27,7 +27,7 @@ const Movies = () => {
 
         try {
             response = await axios.patch(`${VITE_URL}/deletemovies/${encodeURIComponent(localStorage.getItem('user'))}`,
-            moviesToRemove, { withCredentials: true });
+                moviesToRemove, { withCredentials: true });
 
             setMoviesToRemove([]);
             getMovies();
@@ -53,25 +53,26 @@ const Movies = () => {
     }, []);
 
     return (
-        <div className='main'>
+        <div style={{ display: "flex", flexDirection: "column" }}>
             {data !== null ? (
                 <>
-                    {data.movies.map((movie, index) => (
-                        <div className='container' key={index}>
-                            <p>{movie.title}</p>
-                            <p>{movie.genres}</p>
-                            <p>{movie.releaseDate}</p>
-                            <p>{movie.overview}</p>
-                            <label>
-                                Mark as watched:
-                                <Checkbox visible={true} action={addItem} item={movie.title} setArr={setMoviesToRemove} />
-                            </label>
+                    <div>
+                        {data.movies.map((movie, index) => (
+                            <div className='container' key={index}>
+                                <p>{movie.title}</p>
+                                <p>{movie.genres}</p>
+                                <p>{movie.releaseDate}</p>
+                                <p>{movie.overview}</p>
+                                <label>
+                                    Mark as watched:
+                                    <Checkbox visible={true} action={addItem} item={movie.title} setArr={setMoviesToRemove} />
+                                </label>
 
-                        </div>
-                    ))}
+                            </div>
+                        ))}
+                    </div>
                     <button disabled={disabled} onClick={deleteMovies}>Delete all marked as watched?</button>
                 </>
-
             ) : (
                 <p>You do not have any movies in your collection</p>
             )}
