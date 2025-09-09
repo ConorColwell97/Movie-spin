@@ -93,7 +93,9 @@ const Home = () => {
     const logOut = async () => {
         let response;
         try {
-            response = await axios.delete(`${VITE_URL}/userLogout`);
+            response = await axios.delete(`${VITE_URL}/userLogout`
+                ,{ withCredentials: true }
+            );
         } catch (error) {
             console.log(error);
         }
