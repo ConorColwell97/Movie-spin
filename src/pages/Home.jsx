@@ -21,7 +21,7 @@ const Home = () => {
     }
 
     return (
-        <>
+        <div>
             <h1>Welcome {localStorage.getItem('user')}!</h1>
             <div>
                 <button onClick={() => navigate("/find")}>Find movies</button>
@@ -34,8 +34,7 @@ const Home = () => {
                     }
                 }}>Log out</button>
             </div>
-        </>
-
+        </div>
     );
 }
 

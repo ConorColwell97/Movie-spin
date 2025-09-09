@@ -4,7 +4,6 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 const UserAuth = () => {
-    const [home, setHome] = useState(true);
     const [login, setLogin] = useState(false);
     const [register, setRegister] = useState(false);
 
@@ -50,54 +49,56 @@ const UserAuth = () => {
         }
     }
 
-    const setToHome = () => {
-        setHome(true);
-        setLogin(false);
-        setRegister(false);
-    }
-
     const setToLogin = () => {
         setLogin(true);
-        setHome(false);
+        setRegister(false);
     }
 
     const setToRegister = () => {
         setRegister(true);
-        setHome(false);
+        setLogin(false);
     }
 
     return (
-        <div className='login'>
-            {home && (
-                <>
-                    <button onClick={setToLogin}>Log in</button>
-                    <p style={{ color: "white" }}>or</p>
-                    <button onClick={setToRegister}>Register</button>
-                </>
-            )}
+        <div style={{ display: "flex" }}>
 
-            {login && (
-                <>
-                    <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} placeholder='Username' />
-                    <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder='Password' />
-                    <button onClick={userLogin}>Log in</button>
-                    <button onClick={setToHome}>Cancel</button>
-                </>
-            )}
+            <div className='login'>
+                
+                {login && (
+                    <>
+                        <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} placeholder='Username' />
+                        <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder='Password' />
+                        <button onClick={userLogin}>Log in</button>
+                        <p style={{ color: "black" }}>or</p>
+                        <button onClick={setToRegister}>Register</button>
+                    </>
+                )}
 
-            {error && (
-                <p style={{ color: "red" }}>An error occurred</p>
-            )}
+                {error && (
+                    <p style={{ color: "red" }}>An error occurred</p>
+                )}
 
-            {register && (
-                <>
-                    <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} placeholder='Username' />
-                    <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder='Password' />
-                    <button onClick={createUser}>Register</button>
-                    <button onClick={setToHome}>Cancel</button>
-                </>
-            )}
+                {register && (
+                    <>
+                        <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} placeholder='Username' />
+                        <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder='Password' />
+                        <button onClick={createUser}>Register</button>
+                        <button onClick={setToLogin}>Cancel</button>
+                    </>
+                )}
+            </div>
+
+            <div className='about'>
+                <h1>Movie Spin</h1>
+                <p>Welcome to movie spin! Apply filters such as genre, release date and then
+                    spin the wheel to get a bunch of random movies that match your filters!
+                    To get started, either create an account or log in if you are already
+                    a user 
+                </p>
+            </div>
+
         </div>
+
     );
 }
 

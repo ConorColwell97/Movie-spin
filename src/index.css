@@ -30,6 +30,10 @@ body {
   color: black;
 }
 
+p {
+  color: white;
+}
+
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
@@ -55,7 +59,7 @@ button {
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #088F8F;
+  background-color: red;
   cursor: pointer;
   transition: border-color 0.25s;
 }
@@ -73,12 +77,11 @@ button:active {
 
 input {
   border-radius: 8px;
-  border: 1px solid transparent;
+  border: 1px solid blue;
   padding: 0.6em 1.2em;
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #088F8F;
   cursor: pointer;
   transition: border-color 0.25s;
 }
