@@ -27,18 +27,21 @@ const Movies = () => {
         }
     }
 
-    const deleteMovies = async () => {
-        let response;
-
-        try {
-            response = await axios.patch(`${VITE_URL}/deletemovies/${encodeURIComponent(localStorage.getItem('user'))}`,
-                moviesToRemove, { withCredentials: true });
-
-            setMoviesToRemove([]);
-            getMovies();
-        } catch (error) {
-            console.log(error);
-        }
+    const deleteMovies = () => {
+        
+        axios.patch(`${VITE_URL}/deletemovies/${encodeURIComponent(localStorage.getItem('user'))}`, moviesToRemove, { withCredentials: true })
+            .then(response => {
+                console.log(response.data)
+            })
+            .then(() => {
+                setMoviesToRemove([]);
+            })
+            .then(() => {
+                getMovies();
+            })
+            .catch(error => {
+                console.log(error);
+            });
     }
 
     const addItem = (setArr, item, checked) => {
