@@ -56,7 +56,7 @@ const Movies = () => {
         <div style={{ display: "flex", flexDirection: "column" }}>
             {data !== null ? (
                 <>
-                    <div>
+                    <div className="main">
                         {data.movies.map((movie, index) => (
                             <div className='container' key={index}>
                                 <p>{movie.title}</p>
