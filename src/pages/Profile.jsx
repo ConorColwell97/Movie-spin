@@ -53,7 +53,9 @@ const Profile = () => {
         let response;
 
         try {
-            response = await axios.delete(`${VITE_URL}/delete/${encodeURIComponent(localStorage.getItem('user'))}/${encodeURIComponent(password)}`)
+            response = await axios.delete(`${VITE_URL}/delete/${encodeURIComponent(localStorage.getItem('user'))}/${encodeURIComponent(password)}`,
+                { withCredentials: true }
+            );
             localStorage.clear();
             navigate("/");
         } catch (error) {
@@ -102,8 +104,7 @@ const Profile = () => {
                         placeholder="Enter password"
                     />
                     <button onClick={() => {
-                        const confirmed = window.confirm(`Delete account? This action cannot be undone. You will be returned
-                                                            to the log in page upon deletion of your account`);
+                        const confirmed = window.confirm(`Delete account? This action cannot be undone. You will be returned to the log in page upon deletion of your account`);
                         if (confirmed) {
                             deleteAccount();
                         }
