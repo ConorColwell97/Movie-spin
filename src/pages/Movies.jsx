@@ -64,17 +64,17 @@ const Movies = () => {
     }, []);
 
     return (
-        <div style={{ display: "flex", flexDirection: "column" }}>
+        <div style={{ display: "flex", flexDirection: "column", gap: "2em", padding: "2em" }}>
             {data !== null ? (
                 <>
                     <div className="main">
                         {data.movies.map((movie, index) => (
                             <div className='container' key={index}>
-                                <p>{movie.title}</p>
-                                <p>{movie.genres}</p>
-                                <p>{movie.releaseDate}</p>
-                                <p>{movie.overview}</p>
-                                <label>
+                                <p style={{ color: "#470000" }}>{movie.title}</p>
+                                <p style={{ color: "#470000" }}>{movie.genres}</p>
+                                <p style={{ color: "#470000" }}>{movie.releaseDate}</p>
+                                <p style={{ color: "#470000" }}>{movie.overview}</p>
+                                <label style={{ color: "#470000" }}>
                                     Mark as watched/No longer interested:
                                     <Checkbox visible={true} action={addItem} item={movie.title} setArr={setMoviesToRemove} />
                                 </label>
@@ -90,7 +90,7 @@ const Movies = () => {
                     }}>Delete all marked movies</button>
                 </>
             ) : (
-                <p>You do not have any movies in your collection</p>
+                <p style={{ color: "#470000" }}>You do not have any movies in your collection</p>
             )}
         </div>
     );

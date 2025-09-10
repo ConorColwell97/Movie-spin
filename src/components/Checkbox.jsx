@@ -16,7 +16,7 @@ const Checkbox = ({visible, action, item, setArr}) => {
             type="checkbox"
             checked={checked} 
             onChange={handleChange}
-            style={{accentColor: "#088F8F"}}
+            style={{accentColor: "#470000" }}
         />
     );
 }

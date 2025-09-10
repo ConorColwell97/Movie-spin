@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 
 const FindMovies = () => {
 
-    const [genres, setGenres] = useState([]);
+    // const [genres, setGenres] = useState([]);
     const [genreFilters, setGenreFilters] = useState([]);
     const [dateAfterFilter, setDateAfterFilter] = useState("");
     const [dateBeforeFilter, setDateBeforeFilter] = useState("");
@@ -20,23 +20,32 @@ const FindMovies = () => {
     const navigate = useNavigate();
     const VITE_URL = import.meta.env.VITE_API_URL;
 
-    const getGenres = async () => {
-        if (localStorage.getItem('genres') === null) {
-            try {
-                const response = await axios.get(`${VITE_URL}/genres/${localStorage.getItem('user')}`,
-                    { withCredentials: true }
-                );
-                setGenres(response.data);
-                const data = JSON.stringify(response.data);
-                localStorage.setItem('genres', data);
-            } catch (error) {
-                console.log(error);
-            }
-        } else {
-            const data = JSON.parse(localStorage.getItem('genres'));
-            setGenres(data);
-        }
-    }
+    const genres =[
+        { "id": 28, "name": "Action" }, { "id": 12, "name": "Adventure" }, { "id": 16, "name": "Animation" },
+        { "id": 35, "name": "Comedy" }, { "id": 80, "name": "Crime" }, { "id": 99, "name": "Documentary" },
+        { "id": 18, "name": "Drama" }, { "id": 10751, "name": "Family" }, { "id": 14, "name": "Fantasy" },
+        { "id": 36, "name": "History" }, { "id": 27, "name": "Horror" }, { "id": 10402, "name": "Music" },
+        { "id": 9648, "name": "Mystery" }, { "id": 10749, "name": "Romance" }, { "id": 878, "name": "Science Fiction" },
+        { "id": 10770, "name": "TV Movie" }, { "id": 53, "name": "Thriller" }, { "id": 10752, "name": "War" }, { "id": 37, "name": "Western"}
+    ];
+
+    // const getGenres = async () => {
+    //     if (localStorage.getItem('genres') === null) {
+    //         try {
+    //             const response = await axios.get(`${VITE_URL}/genres/${localStorage.getItem('user')}`,
+    //                 { withCredentials: true }
+    //             );
+    //             setGenres(response.data);
+    //             const data = JSON.stringify(response.data);
+    //             localStorage.setItem('genres', data);
+    //         } catch (error) {
+    //             console.log(error);
+    //         }
+    //     } else {
+    //         const data = JSON.parse(localStorage.getItem('genres'));
+    //         setGenres(data);
+    //     }
+    // }
 
     const addItem = (setArr, item, checked) => {
         if (checked) {
@@ -104,9 +113,9 @@ const FindMovies = () => {
         }
     }
 
-    useEffect(() => {
-        getGenres();
-    }, []);
+    // useEffect(() => {
+    //     getGenres();
+    // }, []);
 
     return (
         <div className='filters'>
@@ -142,7 +151,7 @@ const FindMovies = () => {
                 <div style={{ display: "flex", flexDirection: "column" }}>
                     {success ? (
                         <>
-                            <p>Movies successfully added!</p>
+                            <p style={{ color: "#470000" }}>Movies successfully added!</p>
                             <button onClick={() => navigate("/home")}>Finish</button>
                         </>
                     ) : (
@@ -150,17 +159,17 @@ const FindMovies = () => {
                             <div className='main'>
                                 {data.map((item, index) => (
                                     <div className='container' key={index}>
-                                        <p>{item.title}</p>
-                                        <p>{item.genres}</p>
-                                        <p>{item.overview}</p>
-                                        <p>{item.releaseDate}</p>
+                                        <p style={{ color: "#470000" }}>{item.title}</p>
+                                        <p style={{ color: "#470000" }}>{item.genres}</p>
+                                        <p style={{ color: "#470000" }}>{item.overview}</p>
+                                        <p style={{ color: "#470000" }}>{item.releaseDate}</p>
                                         <Checkbox visible={true} action={addItem} item={item} setArr={setMovies} />
                                     </div>
                                 ))}
                             </div>
 
                             {movies.length === 0 && (
-                                <p>No movies selected</p>
+                                <p style={{ color: "#470000" }}>No movies selected</p>
                             )}
                             <button onClick={addMovies} disabled={disabled}>Add selected movies?</button>
                         </>
