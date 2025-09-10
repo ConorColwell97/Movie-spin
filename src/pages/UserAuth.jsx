@@ -90,7 +90,7 @@ const UserAuth = () => {
                             <p style={{ color: "red" }}>{error}</p>
                         )}
 
-                        <button onClick={userLogin}>Log in</button>
+                        <button onClick={userLogin} disabled={username.length === 0 || password.length === 0}>Log in</button>
                         <p style={{ color: "#470000" }}>or</p>
                         <button onClick={setToRegister}>Register</button>
                     </>
@@ -99,13 +99,19 @@ const UserAuth = () => {
                 {register && (
                     <>
                         <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} placeholder='Username' />
-                        <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder='Password' />
-
+                        <label>
+                            <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder='Password' />
+                            {password.length < 8 && (
+                                <p style={{ fontSize: "small", color: "#470000"}}>Password must contain at least 8 characters</p>
+                            )}
+                        </label>
+                        
+                        
                         {error && (
                             <p style={{ color: "red" }}>{error}</p>
                         )}
 
-                        <button onClick={createUser}>Register</button>
+                        <button onClick={createUser} disabled={username.length === 0 || password.length < 8}>Register</button>
                         <button onClick={setToLogin}>Cancel</button>
                     </>
                 )}
