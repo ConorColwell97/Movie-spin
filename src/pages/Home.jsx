@@ -21,13 +21,13 @@ const Home = () => {
     }
 
     return (
-        <div>
-            <h1>Welcome {localStorage.getItem('user')}!</h1>
-            <div>
-                <button onClick={() => navigate("/find")}>Find movies</button>
-                <button onClick={() => navigate("/movies")}>Your movies</button>
-                <button onClick={() => navigate("/profile")}>Profile</button>
-                <button onClick={() => {
+        <div className='home'>
+            <h1 style={{ color: "#470000" }}>Welcome {localStorage.getItem('user')}!</h1>
+            <div className='menu'>
+                <button className='menu_buttons' onClick={() => navigate("/find")}>Find movies</button>
+                <button className='menu_buttons' onClick={() => navigate("/movies")}>Your movies</button>
+                <button className='menu_buttons' onClick={() => navigate("/profile")}>Profile</button>
+                <button className='menu_buttons' onClick={() => {
                     const confirmed = window.confirm(`Log out of account ${localStorage.getItem('user')}?`);
                     if (confirmed) {
                         logOut();

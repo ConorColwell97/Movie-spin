@@ -18,6 +18,27 @@
     padding: 1em;
 }
 
+.home {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+.menu {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.menu_buttons {
+    padding: 2em;
+    border-radius: 2em;
+}
+
+.menu_buttons:hover {
+    border-color: #FAF9F6;
+}
+
 .filters {
     display: flex;
     gap: 2em;
@@ -31,7 +52,7 @@
 }
 
 .list-visible {
-   background-color: #50C878; 
+   background-color: #470000; 
 }
 
 .not-visible {
