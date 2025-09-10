@@ -27,8 +27,11 @@ const UserAuth = () => {
             navigate("/home");
 
         } catch (err) {
-            setError(err.response);
-            console.log(err.message);
+            if(err.status === 409) {
+                setError("An account with this username already exists");
+            }
+            
+            console.log(err.status);
         }
     }
 
@@ -45,16 +48,27 @@ const UserAuth = () => {
             navigate("/home");
 
         } catch (err) {
+            if (err.status === 404) {
+                setError("User not found");
+            } else if (err.status === 401) {
+                setError("Incorrect password");
+            }
             console.log(err);
         }
     }
 
     const setToLogin = () => {
+        setError(null);
+        setUsername("");
+        setPassword("");
         setLogin(true);
         setRegister(false);
     }
 
     const setToRegister = () => {
+        setError(null);
+        setUsername("");
+        setPassword("");
         setRegister(true);
         setLogin(false);
     }
@@ -66,25 +80,31 @@ const UserAuth = () => {
 
                 <h1 style={{ color: "#470000" }}>Movie spin</h1>
                 <p style={{ color: "#470000" }}>Log in or create an account</p>
-                
+
                 {login && (
                     <>
                         <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} placeholder='Username' />
                         <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder='Password' />
+
+                        {error && (
+                            <p style={{ color: "red" }}>{error}</p>
+                        )}
+
                         <button onClick={userLogin}>Log in</button>
                         <p style={{ color: "#470000" }}>or</p>
                         <button onClick={setToRegister}>Register</button>
                     </>
                 )}
 
-                {error && (
-                    <p style={{ color: "red" }}>An error occurred</p>
-                )}
-
                 {register && (
                     <>
                         <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} placeholder='Username' />
                         <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder='Password' />
+
+                        {error && (
+                            <p style={{ color: "red" }}>{error}</p>
+                        )}
+
                         <button onClick={createUser}>Register</button>
                         <button onClick={setToLogin}>Cancel</button>
                     </>
@@ -93,10 +113,10 @@ const UserAuth = () => {
 
             <div className='about'>
                 <h1 style={{ color: "white" }}>Movie Spin</h1>
-                <p style={{ fontSize: "xx-large"}}>Welcome to movie spin! Apply filters such as genre or release date and then
+                <p style={{ fontSize: "xx-large" }}>Welcome to movie spin! Apply filters such as genre or release date and then
                     spin the wheel to get a bunch of random movies that match your filters!
                     To get started, either create an account or log in if you are already
-                    a user 
+                    a user
                 </p>
             </div>
 
