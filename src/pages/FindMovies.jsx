@@ -1,8 +1,12 @@
 import './styles.css';
+import Card from '../components/Card';
 import Checkbox from '../components/Checkbox';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+import { BarLoader } from "react-spinners";
+import Select from 'react-select';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { div } from 'framer-motion/client';
 
 const FindMovies = () => {
 
@@ -10,23 +14,25 @@ const FindMovies = () => {
     const [genreFilters, setGenreFilters] = useState([]);
     const [dateAfterFilter, setDateAfterFilter] = useState("");
     const [dateBeforeFilter, setDateBeforeFilter] = useState("");
-    const [visible, setVisible] = useState(false);
 
+    const [visible, setVisible] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
     const [data, setData] = useState([]);
     const [movies, setMovies] = useState([]);
     const [success, setSuccess] = useState(false);
+
     const disabled = (movies.length === 0);
 
     const navigate = useNavigate();
     const VITE_URL = import.meta.env.VITE_API_URL;
 
-    const genres =[
-        { "id": 28, "name": "Action" }, { "id": 12, "name": "Adventure" }, { "id": 16, "name": "Animation" },
-        { "id": 35, "name": "Comedy" }, { "id": 80, "name": "Crime" }, { "id": 99, "name": "Documentary" },
-        { "id": 18, "name": "Drama" }, { "id": 10751, "name": "Family" }, { "id": 14, "name": "Fantasy" },
-        { "id": 36, "name": "History" }, { "id": 27, "name": "Horror" }, { "id": 10402, "name": "Music" },
-        { "id": 9648, "name": "Mystery" }, { "id": 10749, "name": "Romance" }, { "id": 878, "name": "Science Fiction" },
-        { "id": 10770, "name": "TV Movie" }, { "id": 53, "name": "Thriller" }, { "id": 10752, "name": "War" }, { "id": 37, "name": "Western"}
+    const genres = [
+        { value: 28, label: "Action" }, { value: 12, label: "Adventure" }, { value: 16, label: "Animation" },
+        { value: 35, label: "Comedy" }, { value: 80, label: "Crime" }, { value: 99, label: "Documentary" },
+        { value: 18, label: "Drama" }, { value: 10751, label: "Family" }, { value: 14, label: "Fantasy" },
+        { value: 36, label: "History" }, { value: 27, label: "Horror" }, { value: 10402, label: "Music" },
+        { value: 9648, label: "Mystery" }, { value: 10749, label: "Romance" }, { value: 878, label: "Science Fiction" },
+        { value: 10770, label: "TV Movie" }, { value: 53, label: "Thriller" }, { value: 10752, label: "War" }, { value: 37, label: "Western" }
     ];
 
     // const getGenres = async () => {
@@ -47,7 +53,16 @@ const FindMovies = () => {
     //     }
     // }
 
-    const addItem = (setArr, item, checked) => {
+    const addItem = (items) => {
+        const values = items.map(item => {
+            return item.value;
+        })
+
+        setGenreFilters(values);
+        console.log(genreFilters);
+    }
+
+    const addToList = (setArr, item, checked) => {
         if (checked) {
             setArr(prev => {
                 return [...prev, item];
@@ -60,6 +75,7 @@ const FindMovies = () => {
     }
 
     const search = async () => {
+        setIsLoading(true);
         let filters = "";
 
         if (genreFilters.length > 0) {
@@ -90,6 +106,7 @@ const FindMovies = () => {
                 const response = await axios.get(`${VITE_URL}/mymovies/${localStorage.getItem('user')}/${encodeURIComponent(filters)}`,
                     { withCredentials: true });
                 setData(response.data);
+                setIsLoading(false);
             } catch (error) {
                 console.log(`error: ${error}`);
             }
@@ -108,6 +125,7 @@ const FindMovies = () => {
                 });
 
             setSuccess(true);
+            setMovies([]);
         } catch (error) {
             console.log(error);
         }
@@ -117,65 +135,77 @@ const FindMovies = () => {
     //     getGenres();
     // }, []);
 
+
     return (
-        <div className='filters'>
-            {data.length === 0 ? (
-                <>
-                    <div className='dropdown'>
-                        <button onClick={() => setVisible(!visible)} style={{ marginTop: "1.5em" }}>View Genres</button>
-                        <ul className={visible ? 'list-visible' : 'not-visible'}>
-                            {genres.map((genre, index) => (
-                                <li key={index}>
-                                    {genre.name}
-                                    <Checkbox visible={visible} action={addItem} item={genre.id} setArr={setGenreFilters} />
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
-
-                    <label style={{ display: "flex", flexDirection: "column" }}>
-                        Filter after a date
-                        <input type="date" value={dateAfterFilter} onChange={(e) => setDateAfterFilter(e.target.value)} />
-                    </label>
+        <div style={{ display: "flex", flex: 1, flexDirection: "column" }}>
+            <div className='filters'>
+                <label>
+                    Pick genre(s)
+                    <Select
+                        isMulti={true}
+                        options={genres}
+                        onChange={addItem}
+                    />
+                </label>
 
 
-                    <label style={{ display: "flex", flexDirection: "column" }}>
-                        Filter before a date
-                        <input type="date" value={dateBeforeFilter} onChange={(e) => setDateBeforeFilter(e.target.value)} />
-                    </label>
+                <label style={{ display: "flex", flexDirection: "column" }}>
+                    Filter after a date
+                    <input type="date" value={dateAfterFilter} onChange={(e) => setDateAfterFilter(e.target.value)} />
+                </label>
 
-                    <button style={{ marginTop: "1.5em" }} onClick={search}>Apply filters & search</button>
-                </>
 
-            ) : (
-                <div style={{ display: "flex", flexDirection: "column" }}>
-                    {success ? (
-                        <>
-                            <p style={{ color: "#470000" }}>Movies successfully added!</p>
-                            <button onClick={() => navigate("/home")}>Finish</button>
-                        </>
-                    ) : (
-                        <>
-                            <div className='main'>
-                                {data.map((item, index) => (
-                                    <div className='container' key={index}>
-                                        <p style={{ color: "#470000" }}>{item.title}</p>
-                                        <p style={{ color: "#470000" }}>{item.genres}</p>
-                                        <p style={{ color: "#470000" }}>{item.overview}</p>
-                                        <p style={{ color: "#470000" }}>{item.releaseDate}</p>
-                                        <Checkbox visible={true} action={addItem} item={item} setArr={setMovies} />
-                                    </div>
-                                ))}
-                            </div>
+                <label style={{ display: "flex", flexDirection: "column" }}>
+                    Filter before a date
+                    <input type="date" value={dateBeforeFilter} onChange={(e) => setDateBeforeFilter(e.target.value)} />
+                </label>
 
-                            {movies.length === 0 && (
-                                <p style={{ color: "#470000" }}>No movies selected</p>
-                            )}
-                            <button onClick={addMovies} disabled={disabled}>Add selected movies?</button>
-                        </>
-                    )}
-                </div>
-            )}
+                <button style={{ marginTop: "1.5em" }} onClick={search}>Apply filters & search</button>
+            </div>
+
+            <div>
+
+                {data.length > 0 && (
+                    <>
+                        {isLoading ? (
+                            <label style={{ margin: "0 auto", width: "10em", alignSelf: "center" }}>
+                                Loading...
+                                <BarLoader
+                                    color={"#470000"}
+                                    loading={true}
+                                    size={150}
+                                    cssOverride={{ width: "10em" }}
+                                />
+                            </label>
+                        ) : (
+                            <>
+                                <div className='main'>
+                                    {data.map((item, index) => (
+                                        <Card
+                                            key={index}
+                                            visible={true}
+                                            action={addToList}
+                                            item={item}
+                                            setArr={setMovies}
+                                            text={"Save movie: "}
+                                            context={"store"}
+                                        />
+                                    ))}
+                                </div>
+                                
+                                {success ? (
+                                    <p style={{ color: "#470000" }}>Movies successfully added</p>
+                                ) : (
+                                    <p style={{ color: "#470000" }}>Add movies</p>
+                                )}
+
+                                <button style={{ marginBottom: "5em" }} onClick={addMovies} disabled={disabled}>Add selected movies?</button>
+                            </>
+                        )}
+                    </>
+                )}
+
+            </div>
 
         </div>
     );

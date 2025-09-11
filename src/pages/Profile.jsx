@@ -64,7 +64,7 @@ const Profile = () => {
     }
 
     return (
-        <div style={{ display: "flex", flexDirection: "column" }}>
+        <div style={{ display: "flex", flex: 1, flexDirection: "column", justifyContent: "center", alignItems: "center", gap: "2em" }}>
             {openName ? (
                 <div style={{ display: "flex" }}>
                     <input

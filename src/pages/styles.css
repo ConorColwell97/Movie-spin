@@ -40,7 +40,7 @@
     flex: 1;
     justify-content: center;
     align-items: flex-start;
-    margin-top: 20em;
+    margin-top: 5em;
     gap: 2em;
     padding: 2em;
 }
@@ -51,7 +51,7 @@
 }
 
 .list-visible {
-   background-color: #470000; 
+    background-color: #470000;
 }
 
 .not-visible {
@@ -61,7 +61,7 @@
 .main {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
+    justify-content: space-around;
     gap: 2em;
 }
 
@@ -69,7 +69,7 @@
     display: flex;
     flex-wrap: wrap;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
     border: 0.2em solid transparent;
     background-color: white;
