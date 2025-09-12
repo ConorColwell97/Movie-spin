@@ -1,19 +1,23 @@
 import './styles.css';
 import axios from 'axios';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
     const VITE_URL = import.meta.env.VITE_API_URL;
     const navigate = useNavigate();
+    const [error, setError] = useState(null);
+
 
     const logOut = async () => {
-        let response;
+        setError(null);
+
         try {
-            response = await axios.delete(`${VITE_URL}/userLogout`
+            await axios.delete(`${VITE_URL}/userLogout`
                 , { withCredentials: true }
             );
-        } catch (error) {
-            console.log(error);
+        } catch (err) {
+            setError("An error occurred");
         }
 
         localStorage.clear();
@@ -34,6 +38,10 @@ const Home = () => {
                     }
                 }}>Log out</button>
             </div>
+
+            {error && (
+                <p style={{ color: "red" }}>{error}</p>
+            )}
         </div>
     );
 }

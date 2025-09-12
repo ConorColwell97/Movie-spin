@@ -11,12 +11,13 @@ const Profile = () => {
     const [openPW, setOpenPW] = useState(false);
     const [openDel, setOpenDel] = useState(false);
     const [password, setPassword] = useState("");
+    const [error, setError] = useState(null);
 
     const updateName = async () => {
-        let response;
+        setError(null);
 
         try {
-            response = await axios.patch(`${VITE_URL}/updatename/${encodeURIComponent(localStorage.getItem('user'))}`,
+            await axios.patch(`${VITE_URL}/updatename/${encodeURIComponent(localStorage.getItem('user'))}`,
                 { newName }, {
                 headers: {
                     "Content-Type": "application/json"
@@ -26,16 +27,21 @@ const Profile = () => {
             localStorage.setItem('user', newName);
             setNewName("");
             setOpenName(false);
-        } catch (error) {
-            console.log(error);
+        } catch (err) {
+
+            if (err.status === 401) {
+                setError("You are not authorized to make this request");
+            } else {
+                setError("An error occurred");
+            }
         }
     }
 
     const updatePassword = async () => {
-        let response;
+        setError(null);
 
         try {
-            response = await axios.patch(`${VITE_URL}/updatepw/${encodeURIComponent(localStorage.getItem('user'))}`,
+            await axios.patch(`${VITE_URL}/updatepw/${encodeURIComponent(localStorage.getItem('user'))}`,
                 { newPW }, {
                 headers: {
                     "Content-Type": "application/json"
@@ -44,22 +50,32 @@ const Profile = () => {
 
             setNewPW("");
             setOpenPW(false);
-        } catch (error) {
-            console.log(error);
+        } catch (err) {
+
+            if (err.status === 401) {
+                setError("You are not authorized to make this request");
+            } else {
+                setError("An error occurred");
+            }
         }
     }
 
     const deleteAccount = async () => {
-        let response;
+        setError(null);
 
         try {
-            response = await axios.delete(`${VITE_URL}/delete/${encodeURIComponent(localStorage.getItem('user'))}/${encodeURIComponent(password)}`,
+            await axios.delete(`${VITE_URL}/delete/${encodeURIComponent(localStorage.getItem('user'))}/${encodeURIComponent(password)}`,
                 { withCredentials: true }
             );
             localStorage.clear();
             navigate("/");
-        } catch (error) {
-            console.log(error);
+        } catch (err) {
+
+            if (err.status === 401) {
+                setError("You are not authorized to make this request");
+            } else {
+                setError("An error occurred");
+            }
         }
     }
 
@@ -112,6 +128,10 @@ const Profile = () => {
                 </div>
             ) : (
                 <button onClick={() => setOpenDel(true)}>Delete account</button>
+            )}
+
+            {error && (
+                <p style={{ color: "red" }}>{error}</p>
             )}
         </div>
     );

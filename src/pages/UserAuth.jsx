@@ -15,45 +15,48 @@ const UserAuth = () => {
     const navigate = useNavigate();
 
     const createUser = async () => {
-        let response;
+        setError(null);
+
         try {
-            response = await axios.post(`${VITE_URL}/register`, {
+            await axios.post(`${VITE_URL}/register`, {
                 username: username,
                 password: password
             }, { withCredentials: true });
 
-            console.log(response.data || "No data");
             localStorage.setItem('user', username);
             navigate("/home");
 
         } catch (err) {
+
             if(err.status === 409) {
                 setError("An account with this username already exists");
+            } else {
+                setError("An error occurred");
             }
-            
-            console.log(err.status);
         }
     }
 
     const userLogin = async () => {
-        let response;
+        setError(null);
+
         try {
-            response = await axios.post(`${VITE_URL}/userLogin`, {
+            await axios.post(`${VITE_URL}/userLogin`, {
                 username: username,
                 password: password
             }, { withCredentials: true });
 
-            console.log(response.data || "No data");
             localStorage.setItem('user', username);
             navigate("/home");
 
         } catch (err) {
+            
             if (err.status === 404) {
                 setError("User not found");
             } else if (err.status === 401) {
                 setError("Incorrect password");
+            } else {
+                setError("An error occurred");
             }
-            console.log(err);
         }
     }
 

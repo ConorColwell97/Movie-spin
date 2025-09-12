@@ -8,14 +8,15 @@ const Movies = () => {
     const [data, setData] = useState(null);
     const [moviesToRemove, setMoviesToRemove] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState(null);
     const disabled = (moviesToRemove.length === 0);
     const VITE_URL = import.meta.env.VITE_API_URL;
 
     const getMovies = async () => {
-        let response;
+        setError(null);
 
         try {
-            response = await axios.get(`${VITE_URL}/getmovies/${encodeURIComponent(localStorage.getItem('user'))
+            const response = await axios.get(`${VITE_URL}/getmovies/${encodeURIComponent(localStorage.getItem('user'))
                 }`, { withCredentials: true });
 
             if (response.data.movies.length === 0) {
@@ -24,20 +25,23 @@ const Movies = () => {
                 setData(response.data);
             }
 
-            setIsLoading(false);
-
         } catch (err) {
-            console.log(err);
+
+            if (err.status === 401) {
+                setError("You are not authorized to make this request");
+            } else {
+                setError("An error occurred");
+            }
         }
+
+        setIsLoading(false);
     }
 
     const deleteMovies = () => {
+        setError(null);
         setIsLoading(true);
 
         axios.patch(`${VITE_URL}/deletemovies/${encodeURIComponent(localStorage.getItem('user'))}`, moviesToRemove, { withCredentials: true })
-            .then(response => {
-                console.log(response.data)
-            })
             .then(() => {
                 setMoviesToRemove([]);
             })
@@ -47,8 +51,13 @@ const Movies = () => {
             .then(() => {
                 getMovies();
             })
-            .catch(error => {
-                console.log(error);
+            .catch(err => {
+
+                if (err.status === 401) {
+                    setError("You are not authorized to make this request");
+                } else {
+                    setError("An error occurred");
+                }
             });
     }
 
@@ -108,6 +117,10 @@ const Movies = () => {
                     </>
                 ) : (
                     <h1 style={{ color: "#470000", textAlign: "center" }}>You do not have any movies in your collection</h1>
+                )}
+
+                {error && (
+                    <p style={{ color: "red" }}>{error}</p>
                 )}
             </div>
         );

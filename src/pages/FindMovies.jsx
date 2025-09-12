@@ -15,14 +15,13 @@ const FindMovies = () => {
     const [dateAfterFilter, setDateAfterFilter] = useState("");
     const [dateBeforeFilter, setDateBeforeFilter] = useState("");
 
-    const [visible, setVisible] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
     const [data, setData] = useState([]);
     const [movies, setMovies] = useState([]);
     const [success, setSuccess] = useState(false);
+    const [error, setError] = useState(null);
 
     const disabled = (movies.length === 0);
-
     const navigate = useNavigate();
     const VITE_URL = import.meta.env.VITE_API_URL;
 
@@ -59,7 +58,6 @@ const FindMovies = () => {
         })
 
         setGenreFilters(values);
-        console.log(genreFilters);
     }
 
     const addToList = (setArr, item, checked) => {
@@ -75,7 +73,9 @@ const FindMovies = () => {
     }
 
     const search = async () => {
+        setError(null);
         setIsLoading(true);
+
         let filters = "";
 
         if (genreFilters.length > 0) {
@@ -99,25 +99,29 @@ const FindMovies = () => {
             filters += (`primary_release_date.lte=${dateBeforeFilter}`);
         }
 
-        if (filters.length === 0) {
-            setData("No filters applied");
-        } else {
-            try {
-                const response = await axios.get(`${VITE_URL}/mymovies/${localStorage.getItem('user')}/${encodeURIComponent(filters)}`,
-                    { withCredentials: true });
-                setData(response.data);
-                setIsLoading(false);
-            } catch (error) {
-                console.log(`error: ${error}`);
+
+        try {
+            const response = await axios.get(`${VITE_URL}/mymovies/${localStorage.getItem('user')}/${encodeURIComponent(filters)}`,
+                { withCredentials: true });
+            setData(response.data);
+        } catch (err) {
+
+            if (err.status === 401) {
+                setError("You are not authorized to make this request");
+            } else {
+                setError("An error occurred");
             }
         }
+
+        setIsLoading(false);
+
     }
 
     const addMovies = async () => {
-        let response;
+        setError(null);
 
         try {
-            response = await axios.put(`${VITE_URL}/addmovies/${localStorage.getItem('user')}`, movies,
+            await axios.put(`${VITE_URL}/addmovies/${localStorage.getItem('user')}`, movies,
                 {
                     headers: {
                         "Content-Type": "application/json"
@@ -126,8 +130,13 @@ const FindMovies = () => {
 
             setSuccess(true);
             setMovies([]);
-        } catch (error) {
-            console.log(error);
+        } catch (err) {
+
+            if (err.status === 401) {
+                setError("You are not authorized to make this request");
+            } else {
+                setError("An error occurred");
+            }
         }
     }
 
@@ -161,6 +170,10 @@ const FindMovies = () => {
                 </label>
 
                 <button style={{ marginTop: "1.5em" }} onClick={search}>Apply filters & search</button>
+
+                {error && (
+                    <p style={{ color: "red" }}>{error}</p>
+                )}
             </div>
 
             <div>
@@ -192,7 +205,7 @@ const FindMovies = () => {
                                         />
                                     ))}
                                 </div>
-                                
+
                                 {success ? (
                                     <p style={{ color: "#470000" }}>Movies successfully added</p>
                                 ) : (
