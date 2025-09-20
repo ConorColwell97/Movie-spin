@@ -10,7 +10,6 @@ import { div } from 'framer-motion/client';
 
 const FindMovies = () => {
 
-    // const [genres, setGenres] = useState([]);
     const [genreFilters, setGenreFilters] = useState([]);
     const [dateAfterFilter, setDateAfterFilter] = useState("");
     const [dateBeforeFilter, setDateBeforeFilter] = useState("");
@@ -33,24 +32,6 @@ const FindMovies = () => {
         { value: 9648, label: "Mystery" }, { value: 10749, label: "Romance" }, { value: 878, label: "Science Fiction" },
         { value: 10770, label: "TV Movie" }, { value: 53, label: "Thriller" }, { value: 10752, label: "War" }, { value: 37, label: "Western" }
     ];
-
-    // const getGenres = async () => {
-    //     if (localStorage.getItem('genres') === null) {
-    //         try {
-    //             const response = await axios.get(`${VITE_URL}/genres/${localStorage.getItem('user')}`,
-    //                 { withCredentials: true }
-    //             );
-    //             setGenres(response.data);
-    //             const data = JSON.stringify(response.data);
-    //             localStorage.setItem('genres', data);
-    //         } catch (error) {
-    //             console.log(error);
-    //         }
-    //     } else {
-    //         const data = JSON.parse(localStorage.getItem('genres'));
-    //         setGenres(data);
-    //     }
-    // }
 
     const addItem = (items) => {
         const values = items.map(item => {
@@ -133,7 +114,9 @@ const FindMovies = () => {
         } catch (err) {
 
             if (err.status === 401) {
-                setError("You are not authorized to make this request");
+                alert("You are not authorized to make this request");
+                localStorage.clear();
+                navigate("/");
             } else {
                 setError("An error occurred");
             }

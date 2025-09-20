@@ -30,7 +30,9 @@ const Profile = () => {
         } catch (err) {
 
             if (err.status === 401) {
-                setError("You are not authorized to make this request");
+                alert("You are not authorized to make this request");
+                localStorage.clear();
+                navigate("/");
             } else {
                 setError("An error occurred");
             }
@@ -53,7 +55,9 @@ const Profile = () => {
         } catch (err) {
 
             if (err.status === 401) {
-                setError("You are not authorized to make this request");
+                alert("You are not authorized to make this request");
+                localStorage.clear();
+                navigate("/");
             } else {
                 setError("An error occurred");
             }
@@ -72,7 +76,9 @@ const Profile = () => {
         } catch (err) {
 
             if (err.status === 401) {
-                setError("You are not authorized to make this request");
+                alert("You are not authorized to make this request");
+                localStorage.clear();
+                navigate("/");
             } else {
                 setError("An error occurred");
             }

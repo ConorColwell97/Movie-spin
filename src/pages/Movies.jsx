@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { BarLoader } from "react-spinners";
+import { useNavigate } from 'react-router-dom';
 import Card from "../components/Card";
 import './styles.css';
 
@@ -11,6 +12,7 @@ const Movies = () => {
     const [error, setError] = useState(null);
     const disabled = (moviesToRemove.length === 0);
     const VITE_URL = import.meta.env.VITE_API_URL;
+    const navigate = useNavigate();
 
     const getMovies = async () => {
         setError(null);
@@ -28,7 +30,9 @@ const Movies = () => {
         } catch (err) {
 
             if (err.status === 401) {
-                setError("You are not authorized to make this request");
+                alert("You are not authorized to make this request");
+                localStorage.clear();
+                navigate("/");
             } else {
                 setError("An error occurred");
             }
